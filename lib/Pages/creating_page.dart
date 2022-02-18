@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import '../Modals/contact.dart';
 
 class CreatingPage extends StatefulWidget {
   const CreatingPage({Key? key}) : super(key: key);
@@ -8,10 +11,12 @@ class CreatingPage extends StatefulWidget {
 }
 
 class _CreatingPageState extends State<CreatingPage> {
+  late Box<Contact> contactBox;
   late final TextEditingController _nameController;
   late final TextEditingController _amountController;
   @override
   void initState() {
+    contactBox = Hive.box('ContactBox');
     _nameController = TextEditingController();
     _amountController = TextEditingController();
     super.initState();
@@ -25,35 +30,40 @@ class _CreatingPageState extends State<CreatingPage> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  hintText: 'Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                ),
-              ),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          buildTextField(controller: _nameController, hintText: 'Name'),
+          buildTextField(controller: _amountController, hintText: 'Amount'),
+          SizedBox(
+            width: double.infinity,
+            height: 60,
+            // save Button
+            child: ElevatedButton(
+              child: const Text('Add'),
+              onPressed: () async {
+                String _name = _nameController.text;
+                int _amount = int.parse(_amountController.text);
+                Contact newContact = Contact(name: _name, amount: _amount);
+                contactBox.add(newContact);
+                Navigator.pop(context);
+               
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                controller: _amountController,
-                maxLines: 10,
-                decoration: const InputDecoration(
-                   hintText: 'Amount',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
+        ],
+      )),
+    );
+  }
+
+  buildTextField({controller, hintText}) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hintText,
+          border: const OutlineInputBorder(),
         ),
       ),
     );

@@ -6,7 +6,7 @@ import 'Pages/home_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter(ContactAdapter());
+  Hive.registerAdapter<Contact>(ContactAdapter());
   await Hive.openBox<Contact>('ContactBox');
   runApp(const MyApp());
 }
