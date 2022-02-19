@@ -39,8 +39,12 @@ class _HomePageState extends State<HomePage> {
       body: ValueListenableBuilder(
           valueListenable: contactBox.listenable(),
           builder: (context, _contactBox, child) {
-            var boxLength = contactBox.keys.length;
-            return ListView.builder(
+            int boxLength = contactBox.keys.length;
+            if (boxLength == 0) {
+              return const Center(child:  Text('Empty'));
+            }
+            else{
+              return ListView.builder(
               itemCount: boxLength,
               itemBuilder: (context, i) {
                 var box = contactBox.getAt(i) as Contact;
@@ -75,6 +79,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             );
+            }
           }),
     );
   }
