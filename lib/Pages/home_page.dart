@@ -41,44 +41,45 @@ class _HomePageState extends State<HomePage> {
           builder: (context, _contactBox, child) {
             int boxLength = contactBox.keys.length;
             if (boxLength == 0) {
-              return const Center(child:  Text('Empty'));
-            }
-            else{
+              return const Center(
+                child: Text('Empty'),
+              );
+            } else {
               return ListView.builder(
-              itemCount: boxLength,
-              itemBuilder: (context, i) {
-                var box = contactBox.getAt(i) as Contact;
-                return ListTile(
-                  title: Text(box.name),
-                  subtitle: Text('${box.amount}'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          Route route = MaterialPageRoute(builder: (context) {
-                            return EditingPage(
-                              index: i,
-                              name: box.name,
-                              amount: box.amount,
-                            );
-                          });
-                          Navigator.of(context).push(route);
-                        },
-                      ),
-                      const SizedBox(width: 5),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          contactBox.deleteAt(i);
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
+                itemCount: boxLength,
+                itemBuilder: (context, i) {
+                  var box = contactBox.getAt(i) as Contact;
+                  return ListTile(
+                    title: Text(box.name),
+                    subtitle: Text('${box.amount}'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {
+                            Route route = MaterialPageRoute(builder: (context) {
+                              return EditingPage(
+                                index: i,
+                                name: box.name,
+                                amount: box.amount,
+                              );
+                            });
+                            Navigator.of(context).push(route);
+                          },
+                        ),
+                        const SizedBox(width: 5),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            contactBox.deleteAt(i);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             }
           }),
     );

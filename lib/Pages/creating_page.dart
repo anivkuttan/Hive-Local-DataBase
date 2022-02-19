@@ -33,8 +33,8 @@ class _CreatingPageState extends State<CreatingPage> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          buildTextField(controller: _nameController, hintText: 'Name'),
-          buildTextField(controller: _amountController, hintText: 'Amount'),
+          buildTextField(controller: _nameController, hintText: 'Name',keyType:TextInputType.text ),
+          buildTextField(controller: _amountController, hintText: 'Amount',keyType: TextInputType.number),
           SizedBox(
             width: double.infinity,
             height: 60,
@@ -56,11 +56,12 @@ class _CreatingPageState extends State<CreatingPage> {
     );
   }
 
-  buildTextField({controller, hintText}) {
+  buildTextField({controller, hintText,keyType}) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: TextField(
         controller: controller,
+        keyboardType:keyType ,
         decoration: InputDecoration(
           hintText: hintText,
           border: const OutlineInputBorder(),
